@@ -1,0 +1,7 @@
+{% load static %}
+
+{% if flag %}
+<img src="{% static 'img/right_512x512.png' %}" height="40" width="40" alt="True" />
+{% else %}
+<img src="{% static 'img/wrong_512x512.png' %}" height="40" width="40" alt="False" />
+{% endif %}

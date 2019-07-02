@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+{% include "head.html" %}
+
+    {% block aditional_header  %}
+    {% endblock aditional_header %}
+  </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Overtimes</a>
+        {% if request.get_full_path == "/" %}
+          <div class="navbar mx-auto">
+            <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#demo">
+                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+            </button>
+          </div>
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+          {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ user.username }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                  {% comment %} 
+                    TODO: Vytvorit novou datovou tabulku s vsemi account. Pokud bude uzivatel super_user, tak se mu zobarazi uplne vsechny bez omezeni
+                  {% endcomment %}
+                  <a class="dropdown-item" href="{% url 'myprojects' %}">My accounts</a>
+                  {% comment %} <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a> {% endcomment %}
+                  <div class="dropdown-divider"></div>
+                  {% comment %} <a class="dropdown-item" href="{% url 'logout' %}">Log out</a> {% endcomment %}
+                  {% if user.is_manager %}
+                    <a class="dropdown-item" href="{% url 'add_project' %}">Add new account</a>
+                  {% endif %}
+                  <a class="dropdown-item" href="{% url 'add_overtime' %}">Add overtime</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                </div>
+              </li>
+            </ul>
+          {% else %}
+            <form class="form-inline ml-auto">
+              <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    {% for message in messages %}
+    <div class="message">
+        {{ message }}
+        <a href="#" class="del-msg">&times;</a>
+    </div>
+    {% endfor %}
+
+    {% block content  %}
+    {% endblock content %}
+
+    <script>
+    $(document).ready(function() {
+        // messages timeout for 10 sec 
+        setTimeout(function() {
+            $('.message').fadeOut('slow');
+        }, 10000); // <-- time in milliseconds, 1000 =  1 sec
+
+        // delete message
+        $('.del-msg').live('click',function(){
+            $('.del-msg').parent().attr('style', 'display:none;');
+        })
+    });
+    </script>
+
+    <script src="{% static 'vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'vendor/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

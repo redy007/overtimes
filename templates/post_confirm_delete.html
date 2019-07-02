@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <h1> Are you sure you want to delete this overtime? </h1>
+            <p> {{ object }}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="submit" value="confirm" />
+            </form>
+          </div>
+        </main>
+        {% comment %} {% include "sidebar.html" with most_recent=most_recent category_count=category_count %} {% endcomment %}
+      </div>
+    </div>
+
+{% endblock content %}

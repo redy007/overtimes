@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+
+<div class="container">
+    <div class="row justify-content-center mt-2">
+        <div id="demo" class="collapse show pl-3">
+            <form method="get" action="{% url 'search' %}" >
+                <div class="card card-body bg-light">
+                <h4 class="text-center">Filter</h4>
+                <hr>
+                <div class="row">
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.overtime_date_start.label_tag }}
+                    {% render_field filter.form.overtime_date_start class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.overtime_date_end.label_tag }}
+                    {% render_field filter.form.overtime_date_end class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.who_saved.label_tag }}
+                    {% render_field filter.form.who_saved class="form-control" %}
+                    </div>
+
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.project.label_tag }}
+                    {% render_field filter.form.project class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.operation.label_tag }}
+                    {% render_field filter.form.operation class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                    {{ filter.form.overtimes_created.label_tag }}
+                    {% render_field filter.form.overtimes_created class="form-control" %}
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-search"></span> Search
+                </button>
+                </div>
+            </form>
+    </div>
+  </div>
+</div>

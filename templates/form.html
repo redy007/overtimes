@@ -1,0 +1,108 @@
+{% extends 'base_no_js.html' %}
+
+{% block aditional_header %}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <h1 class="mt-2">New record</h1>
+          <hr class="mt-0 mb-4">
+          <label for="id_operation" class="col-form-label  requiredField">
+                Pick date<span class="asteriskField">*</span> 
+          </label>
+          <div id="datetimes" name="datetimes" type="text" class="form-group col-md-12" 
+            style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%"
+            value="" >
+              <i id="datetimes2" class="fa fa-calendar"></i>&nbsp;
+                <span></span> 
+              <i class="fa fa-caret-down"></i>
+          </div>
+          <form method="post">
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-12 mb-0">
+                {{ form.overtime_date_start|as_crispy_field }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 mb-0">
+                {{ form.overtime_date_end|as_crispy_field }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 mb-0">
+                {{ form.operation|as_crispy_field }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 mb-0">
+                {{ form.project|as_crispy_field }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 mb-0">
+                {{ form.comment|as_crispy_field }}
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+
+
+          </div>
+      </div>
+    </div>
+
+<script>
+// A $( document ).ready() block.
+function GetFormattedDate(mytime) {
+  var currentDate = new Date();
+  var day = currentDate.getDate();
+  var month = currentDate.getMonth() + 1;
+  var year = currentDate.getFullYear();
+  return year + "-" + month + "-" + day + " " + mytime;
+
+}
+
+$(function() {
+  var myStartDate = $('#id_overtime_date_start').val() ? $('#id_overtime_date_start').val() : GetFormattedDate("09:00:00")
+  var myEndtDate = $('#id_overtime_date_end').val() ? $('#id_overtime_date_end').val() : GetFormattedDate("17:00:00")
+  $('#datetimes').daterangepicker({
+    startDate:  myStartDate, 
+    endDate: myEndtDate,
+    timePicker: true,
+    timePicker24Hour: true, 
+    timePickerIncrement: 30,
+    autoUpdateInput: false,
+    locale: {
+      format: 'YYYY-MM-DD HH:mm'
+    }
+  }, function(start, end, label) {
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD HH:mm') + ' to ' + end.format('YYYY-MM-DD HH:mm'));
+    $('#datetimes span').html(start.format('YYYY-MM-DD HH:mm') + ' to ' + end.format('YYYY-MM-DD HH:mm'));
+    $('#id_overtime_date_start').val(start.format('YYYY-MM-DD HH:mm'))
+    $('#id_overtime_date_end').val(end.format('YYYY-MM-DD HH:mm'))
+});
+});
+
+$( document ).ready(function() {
+  $('#datetimes span').html(
+    ($('#id_overtime_date_start').val() ? $('#id_overtime_date_start').val() : GetFormattedDate("09:00:00")) 
+    + ' to ' 
+    + ($('#id_overtime_date_end').val() ? $('#id_overtime_date_end').val() : GetFormattedDate("17:00:00")
+    ));
+});
+</script>
+{% endblock %}
