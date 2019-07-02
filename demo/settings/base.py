@@ -18,7 +18,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'django_countries',
-    'django_saml2_auth',
 
     'core',
     'users'
