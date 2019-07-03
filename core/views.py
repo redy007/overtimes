@@ -1,23 +1,18 @@
+import csv
+from datetime import datetime
+
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.utils.dateparse import parse_date, parse_datetime, parse_time
-from django.db.models import Sum
-from django.views.generic import View, UpdateView, DeleteView, CreateView
+from django.views.generic import View, UpdateView, DeleteView
 from django.contrib.auth import get_user_model
-
-from annoying.functions import get_object_or_None
-from datetime import date, timedelta, datetime, time
-import holidays
+from django_filters.views import FilterView
 
 from core.filters import OvertimesFilter
-from core.models import Overtimes, Project, ProjectSettings
+from core.models import Overtimes, Project
 from core.forms import OvertimesForm, ProjectForm
-
-from .overtimes import ManageOvertimes
 
 User = get_user_model()
 
@@ -94,6 +89,47 @@ def search(request):
     overtimes_filter = OvertimesFilter(request.GET, queryset=overtimes_list)
     # print(overtimes_filter.__dict__)
     return render(request, 'overtimes_search.html', {'filter': overtimes_filter})
+
+class OvertimesExportView(FilterView):
+    """
+    Export data to csv based on django-filters query
+    """
+    filterset_class = OvertimesFilter
+
+    def render_to_response(self, context, **response_kwargs):
+        filename = "{}-export.csv".format(datetime.now().replace(microsecond=0).isoformat())
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+
+        writer = csv.writer(response)
+        writer.writerow([
+            'overtime_date_start',
+            'overtime_date_end',
+            'project',
+            'owner',
+            'activity',
+            'time spend',
+            'weekend',
+            'holidays',
+            'night',
+            'comment'
+        ])
+
+        for obj in self.object_list:
+            writer.writerow([obj.overtime_date_start,
+                obj.overtime_date_end,
+                obj.project,
+                obj.owner,
+                obj.operation,
+                obj.time_spend_weekday,
+                obj.get_time_spend_weekend,
+                obj.get_time_spend_holiday,
+                obj.get_time_spend_night,
+                obj.comment
+            ])
+            
+        return response
 
 
 class IndexView(View):

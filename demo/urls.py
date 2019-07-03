@@ -15,7 +15,8 @@ from core.views import (
     OvertimeUpdateView,
     OvertimeDeleteView,
     addProject,
-    search
+    search,
+    OvertimesExportView
 )
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     # path('search/', FilterView.as_view(filterset_class=OvertimesFilter,
     #    template_name='overtimes_search.html'), name='search'),
     path('search/', search, name='search'),
+    path('search/export/', OvertimesExportView.as_view(), name='csv_export'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
 

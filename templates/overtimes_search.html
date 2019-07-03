@@ -41,7 +41,7 @@
                             <td>{{ obj.overtime_date_start }}</td>
                             <td>{{ obj.overtime_date_end }}</td>
                             <td>{{ obj.project }}</td>
-                            <td>{{ obj.who_saved }}</td>
+                            <td>{{ obj.owner }}</td>
                             <td>{{ obj.operation_verbose }}</td>
                             <td>{{ obj.time_spend_weekday }}</td>
                             <td>{{ obj.get_time_spend_weekend }}</td>
@@ -68,6 +68,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% comment %} {% url 'csv_export:add' %}?{{ request.GET.urlencode }} {% endcomment %}
+                <a href="{% url 'search' %}export?{{ request.GET.urlencode }}">export to csv</a>
                 <hr>
                 <h4><b>Total:</b></h4> 
                 <ul>

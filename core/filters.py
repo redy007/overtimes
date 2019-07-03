@@ -1,16 +1,8 @@
-from django import forms
-from django.db.models import Avg, Sum
-from core.models import Overtimes
+from django.db.models import Sum
 import django_filters
+from core.models import Overtimes
 
 class OvertimesFilter(django_filters.FilterSet):
-    # https://django-filter.readthedocs.io/en/master/ref/filters.html
-    # TODO: pridat dalsi inputy, jakmile bude neco v db
-    # overtime_date_start = django_filters.DateFromToRangeFilter(
-    #     widget=django_filters.widgets.RangeWidget(
-    #         attrs={'placeholder': 'YYYY/MM/DD'}
-    #         )
-    #     )
     overtime_date_start = django_filters.DateFilter(lookup_expr=('gt'), label='Overtime is greater (mm/dd/yyyy):')
     overtime_date_end = django_filters.DateFilter(lookup_expr=('lt'), label='Overtime is less (mm/dd/yyyy):')
     overtimes_created = django_filters.DateRangeFilter(label='Overtime logged in:')
@@ -19,7 +11,7 @@ class OvertimesFilter(django_filters.FilterSet):
 
     class Meta:
         model = Overtimes
-        fields = ['overtime_date_start', 'overtime_date_end', 'project', 'operation', 'who_saved', 'overtimes_created']
+        fields = ['overtime_date_start', 'overtime_date_end', 'project', 'operation', 'owner', 'overtimes_created']
     
     def foreign_key_user(self, queryset, name, value):
         return queryset.filter(who_saved__username=value)

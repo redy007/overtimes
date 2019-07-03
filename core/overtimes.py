@@ -9,8 +9,6 @@ from core.models import Project
 # where employees actually works
 OFFSHORE = getattr(settings, "OFFSHORE", None)
 
-# TODO: call out could be only in case the user holds on call shift
-
 class ManageOvertimes():
     """
     It's whole business logic here. The class computes overtimes, on calls and call outs.
@@ -89,23 +87,7 @@ class ManageOvertimes():
 
     def exec_main(self):
 
-        # TODO: pridat moznost sledovani public holidays v zemi zakaznika
-        # projectSettings.follow_holidays
-        # projectSettings.country
-        # customers_holiday = holidays.CountryHoliday(projectSettings.country)
-        # print('The customer country is', projectSettings.country)    
-
-        # nejvetsi problem bude s temi ify:
-
-        # if x_day in cz_holidays and x_day.weekday() >= 5:
-        #             self.time_spend_holiday += timedelta(hours=24)
-        #         elif x_day in cz_holidays:
-        #             self.time_spend_holiday += ManageOvertimes.duty(on_call_starts, night, on_call_ends, morning)
-        #         elif x_day.weekday() >= 5: 
-        #             self.time_spend_weekend += timedelta(hours=24)  
-
-        # any() and all()
-        # all()
+        # TODO: Enable follow customer's vacation
 
         # https://pypi.org/project/holidays/
         print('tady jsem')
@@ -177,7 +159,7 @@ class ManageOvertimes():
                 # all(inspect.isclass(customers_holidays), x_day in customers_holidays)
                 # TODO: if someone start at 2 pm and needs to start at 1 pm due to training
                 # then the overtime will be counted as 0, but still the request is ok
-                # so for overtimes and 
+                # need to be changed 
                 if self.operationType == 'OUT' or self.operationType == 'OVER':
                     if ManageOvertimes.is_night_shift(night_time_start, night_time_end, self.overtime_date_start) or ManageOvertimes.is_night_shift(night_time_start, night_time_end, overtime_date_end):
                         self.time_spend_night += timedelta(hours=8)
