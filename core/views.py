@@ -36,7 +36,6 @@ def addOvertime(request):
         overtime_date_start = request.POST['overtime_date_start']
         overtime_date_end = request.POST['overtime_date_end']
         form = OvertimesForm(request.POST, owner=request.user, overtime_date_start=overtime_date_start, overtime_date_end=overtime_date_end)
-        print('xxx ')
         if form.is_valid():
             # grab values from form inputs          
             # I am adding date into overtime_date_start, overtime_date_end
@@ -156,7 +155,6 @@ class IndexView(View):
                 .order_by('overtime_date_start')
             latest = latest.filter(who_saved__username=request.user)
 
-        print(latest)
         overtimes_list = Overtimes.objects.all()
         overtimes_filter = OvertimesFilter(request.GET, queryset=overtimes_list)
         context = {
@@ -193,9 +191,6 @@ def addProject(request):
 class MyProjects(View):
 
     def get(self, request, *args, **kwargs):
-        print("user is superuser? ")
-        print(request.user.is_superuser)
-
         if request.user.is_superuser:
             latest = Project.objects.all() \
                 .order_by('created_date')
