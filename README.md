@@ -19,3 +19,4 @@ This project includes:
 4. Django-Forms
 5. Django-Filters
 6. Changed Django-admin page to better manage users
+7. Export to csv on filter page
