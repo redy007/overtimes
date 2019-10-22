@@ -29,7 +29,7 @@ lxml==4.3.4
 mccabe==0.6.1
 oauthlib==3.0.1
 pep8==1.7.1
-Pillow==5.4.1
+Pillow==6.2.0
 pkgconfig==1.5.1
 pycparser==2.19
 PyJWT==1.7.1
