@@ -4,7 +4,7 @@ The project was created for organization where is needed to count overtimes, on 
 
 It's used boilerplate Django project from JustDjango
 
-there are three users:
+there are three user levels:
 - admin (superuser): password
 - msi (manager): msi
 - emp (employee): password
