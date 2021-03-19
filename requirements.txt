@@ -18,7 +18,7 @@ django-rest-auth==0.9.5
 django-saml2-auth==2.2.1
 django-tinymce==2.8.0
 django-widget-tweaks==1.4.5
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 gunicorn==19.9.0
 holidays==0.9.10
